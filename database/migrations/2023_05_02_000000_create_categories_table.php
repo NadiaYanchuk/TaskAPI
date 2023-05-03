@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('mark', ['popular', 'top'])->nullable();
             $table->boolean('status')->default(0)->nullable();
-            $table->integer('order', true); //autoIncrement
+            $table->unsignedInteger('order')->nullable();
             $table->string('meta_title', 50);
             $table->string('meta_description', 50);
             $table->boolean('noindex')->default(0)->nullable();

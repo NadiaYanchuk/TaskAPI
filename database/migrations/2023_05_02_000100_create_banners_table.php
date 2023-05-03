@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 50);
             $table->string('image', 255);
             $table->boolean('status')->default(0)->nullable();
-            $table->integer('order', true); //autoIncrement
+            $table->unsignedInteger('order');
             $table->timestamps();
         });
     }

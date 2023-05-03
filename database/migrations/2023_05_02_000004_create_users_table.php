@@ -14,11 +14,12 @@ return new class extends Migration {
             $table->id();
             $table->string('name', 30);
             $table->string('surname', 30);
-            $table->string('email', 255);
+            $table->string('email', 255)->unique();
             $table->string('telephone', 15);
-            $table->string('password', 255);
             $table->string('address', 255)->nullable();
-            $table->string('number_card', 19)->nullable();
+            $table->unsignedBigInteger('role_id');
+            $table->string('password', 255);
+            
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->timestamps();
         });
