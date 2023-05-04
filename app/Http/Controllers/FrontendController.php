@@ -8,6 +8,7 @@ use App\Models\Product;
 
 class FrontendController extends Controller
 {
+    // Данные из таблицы products
     public function products()
     {
         $products = Product::all();
@@ -15,6 +16,7 @@ class FrontendController extends Controller
         return view('range', compact('products'));
     }
 
+    // Данные из таблицы categories
     public function categories()
     {
         $categories = Category::all();
