@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Каталог товаров
+  description: Спецификация для работы с каталогом товаров
+  version: 1.0.0
+  contact:
+    name: Янчук Надежда
+    email: nadiaianciuk@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost:8000
+    description: Development server
+tags:
+  - name: Обувь
+    description: Категория товаров "Обувь"
+  - name: Женская одежда
+    description: Категория товаров "Женская одежда"
+paths:
+  /products:
+    get:
+      summary: Получить список товаров
+      tags:
+        - products
+      responses:
+        '200':
+          description: Список товаров
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+    post:
+      summary: Добавить новый товар
+      tags:
+        - products
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        '201':
+          description: Новый товар создан успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        '400':
+          description: Некорректные данные для создания товара
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - name
+        - category
+        - description
+        - price
+        - model
+        - color
+      properties:
+        name:
+          type: string
+          description: Название товара
+        category:
+          type: string
+          description: Категория товара
+        description:
+          type: string
+          description: Описание товара
+        price:
+          type: number
+          description: Цена товара
+        model:
+          type: string
+          description: Модель товара
+        color:
+          type: string
+          description: Цвет товара
