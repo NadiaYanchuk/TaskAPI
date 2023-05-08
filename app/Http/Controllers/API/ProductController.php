@@ -2,12 +2,11 @@
    
 namespace App\Http\Controllers\API;
    
-use Illuminate\Http\Request;
-use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Product;
-use Validator;
-use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\BaseController;
 use App\Http\Resources\Product as ProductResource;
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
    
 class ProductController extends BaseController
 {
@@ -19,8 +18,8 @@ class ProductController extends BaseController
     public function index()
     {
         $products = Product::all();
-    
-        return $this->sendResponse($products, 'Products retrieved successfully.');
+
+        return $this->sendResponse(ProductResource::collection($products), 'Project retrieved successfully.');
     }
     /**
      * Store a newly created resource in storage.
