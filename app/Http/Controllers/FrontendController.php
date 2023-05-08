@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Response;
+use GuzzleHttp\Client;
 
 class FrontendController extends Controller
 {

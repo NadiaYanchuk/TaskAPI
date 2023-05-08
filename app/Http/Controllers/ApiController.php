@@ -32,4 +32,6 @@ class ApiController extends Controller
         return response(json_encode($data, JSON_UNESCAPED_UNICODE))
            ->header('Content-Type', 'application/json'); //отображение текста на русском, настройка кодировки
     }
+
+    
 }
