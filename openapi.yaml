@@ -13,16 +13,111 @@ servers:
   - url: http://localhost:8000
     description: Development server
 tags:
-  - name: Обувь
-    description: Категория товаров "Обувь"
-  - name: Женская одежда
-    description: Категория товаров "Женская одежда"
+  - name: Категории
+    description: Категории товаров
+  - name: Товары
+    description: Товары
 paths:
+  /categories:
+    get:
+      summary: Получение списка категорий
+      tags:
+        - Категории
+      responses:
+        '200':
+          description: Список категорий
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    post:
+      summary: Добавление новой категории
+      tags:
+        - Категории
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Название категории
+      responses:
+        '201':
+          description: Новая категория создана успешно
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Название категории
+        '400':
+          description: Некорректные данные для создания категории
+  '/categories/{id}':
+    get:
+      summary: Получение информации о категории
+      tags:
+        - Категории
+      responses:
+        '200':
+          description: Информация о категории
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Название категории
+    put:
+      summary: Обновление информации о категории
+      tags:
+        - Категории
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Название категории
+      responses:
+        '200':
+          description: Информация о категории успешно обновлена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Название категории
+        '400':
+          description: Некорректные данные для обновления информации о категории
+        '404':
+          description: Категория не найдена
+    delete:
+      summary: Удаление категории
+      tags:
+        - Категории
+      responses:
+        '204':
+          description: Категория успешно удалена
+        '404':
+          description: Категория не найдена
   /products:
     get:
-      summary: Получить список товаров
+      summary: Получение списка товаров
       tags:
-        - products
+        - Товары
       responses:
         '200':
           description: Список товаров
@@ -33,9 +128,9 @@ paths:
                 items:
                   $ref: "#/components/schemas/Product"
     post:
-      summary: Добавить новый товар
+      summary: Добавление нового товара
       tags:
-        - products
+        - Товары
       requestBody:
         required: true
         content: 
@@ -51,6 +146,52 @@ paths:
                 $ref: "#/components/schemas/Product"
         '400':
           description: Некорректные данные для создания товара
+    '/products/{id}':
+     get:
+      summary: Получение информации о товаре
+      tags:
+        - Товары
+      responses:
+        '200':
+          description: Информация о товаре
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Название товара
+    put:
+      summary: Обновление информации о товаре
+      tags:
+        - Товары
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        '200':
+          description: Информация о товаре успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        '400':
+          description: Некорректные данные для обновления информации о товаре
+        '404':
+          description: Товар не найден
+    delete:
+      summary: Удаление товара
+      tags:
+        - Товары
+      responses:
+        '204':
+          description: Товар успешно удален
+        '404':
+          description: Товар не найден
 components:
   schemas:
     Product:
@@ -58,10 +199,7 @@ components:
       required:
         - name
         - category
-        - description
         - price
-        - model
-        - color
       properties:
         name:
           type: string

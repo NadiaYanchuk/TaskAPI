@@ -1,13 +1,12 @@
 <?php
-   
+
 namespace App\Http\Controllers\API;
-   
+
 use App\Http\Controllers\API\BaseController;
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\Product as ProductResource;
 use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-   
+
 class ProductController extends BaseController
 {
     /**
@@ -19,34 +18,24 @@ class ProductController extends BaseController
     {
         $products = Product::all();
 
-        return $this->sendResponse(ProductResource::collection($products), 'Project retrieved successfully.');
+        return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully.', 200);
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $input = $request->all();
-    
-        $validator = Validator::make($input, [
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-        ]);
-    
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-    
+
         $product = Product::create($input);
-    
-        return $this->sendResponse(new ProductResource($product), 'Product created successfully.');
+
+        return $this->sendResponse(new ProductResource($product), 'Product created successfully.', 201);
     }
-    
-   
+
     /**
      * Display the specified resource.
      *
@@ -56,14 +45,14 @@ class ProductController extends BaseController
     public function show($id)
     {
         $product = Product::find($id);
-  
+
         if (is_null($product)) {
-            return $this->sendError('Product not found.');
+            return $this->sendError('Product not found.', 404);
         }
-   
-        return $this->sendResponse(new ProductResource($product), 'Product retrieved successfully.');
+
+        return $this->sendResponse(new ProductResource($product), 'Product retrieved successfully.', 200);
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -71,28 +60,18 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
-{
-    $input = $request->all();
+    public function update(ProductRequest $request, Product $product)
+    {
+        $input = $request->all();
 
-    $validator = Validator::make($input, [
-        'name' => 'required',
-        'price' => 'required|numeric',
-        'quantity' => 'required|integer',
-    ]);
+        $product->name = $input['name'];
+        $product->price = $input['price'];
+        $product->quantity = $input['quantity'];
+        $product->save();
 
-    if ($validator->fails()) {
-        return $this->sendError('Validation Error.', $validator->errors());
+        return $this->sendResponse(new ProductResource($product), 'Product updated successfully.', 200);
     }
 
-    $product->name = $input['name'];
-    $product->price = $input['price'];
-    $product->quantity = $input['quantity'];
-    $product->save();
-
-    return $this->sendResponse(new ProductResource($product), 'Product updated successfully.');
-}
-   
     /**
      * Remove the specified resource from storage.
      *
@@ -102,7 +81,11 @@ class ProductController extends BaseController
     public function destroy(Product $product)
     {
         $product->delete();
-   
-        return $this->sendResponse([], 'Product deleted successfully.');
+
+        if (is_null($product)) {
+            return $this->sendError('Product not found.', 404);
+        }
+
+        return $this->sendResponse([], 'Product deleted successfully.', 204);
     }
 }

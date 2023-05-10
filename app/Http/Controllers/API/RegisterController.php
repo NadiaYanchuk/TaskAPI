@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
    
 use App\Http\Controllers\API\BaseController;
+use App\Http\Requests\RegisterPostRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -15,25 +16,13 @@ class RegisterController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function register(RegisterPostRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'surname' => 'required',
-            'email' => 'required|email',
-            'telephone' => 'required',
-            'password' => 'required'
-        ]);
-   
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
-        }
    
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
-
    
         return $this->sendResponse($success, 'User register successfully.');
     }
@@ -43,7 +32,7 @@ class RegisterController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function login(RegisterPostRequest $request)
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
             $user = Auth::user(); 
