@@ -16,7 +16,7 @@ class ProductController extends BaseController
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::get();
 
         return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully.', 200);
     }
@@ -29,7 +29,7 @@ class ProductController extends BaseController
      */
     public function store(ProductRequest $request)
     {
-        $input = $request->all();
+        $input = $request->post();
 
         $product = Product::create($input);
 
@@ -62,7 +62,7 @@ class ProductController extends BaseController
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $input = $request->all();
+        $input = $request->post();
 
         $product->name = $input['name'];
         $product->price = $input['price'];
