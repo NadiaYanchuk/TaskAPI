@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ApiController extends Controller
+class PublicApiController extends Controller
 {
-    // Создание API
     public function index(Request $request)
     {
         $products = Product::all();
@@ -30,8 +30,6 @@ class ApiController extends Controller
         }
 
         return response(json_encode($data, JSON_UNESCAPED_UNICODE))
-           ->header('Content-Type', 'application/json'); //отображение текста на русском, настройка кодировки
+            ->header('Content-Type', 'application/json');
     }
-
-    
 }

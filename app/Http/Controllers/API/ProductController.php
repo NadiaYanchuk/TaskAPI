@@ -82,10 +82,6 @@ class ProductController extends BaseController
     {
         $product->delete();
 
-        if (is_null($product)) {
-            return $this->sendError('Product not found.', 404);
-        }
-
-        return $this->sendResponse([], 'Product deleted successfully.', 204);
+        return response()->json('success');
     }
 }
