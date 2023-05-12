@@ -18,7 +18,7 @@ tags:
   - name: Товары
     description: Товары
 paths:
-  /categories:
+  /api/categories:
     get:
       summary: Получение списка категорий
       tags:
@@ -31,79 +31,67 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  $ref: '#/components/schemas/Categories'
     post:
       summary: Добавление новой категории
       tags:
         - Категории
       requestBody:
         required: true
-        content: 
+        content:
           application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: Название категории
+              $ref: '#/components/schemas/Categories'
       responses:
         '201':
           description: Новая категория создана успешно
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: Название категории
+                $ref: '#/components/schemas/Categories'
         '400':
           description: Некорректные данные для создания категории
-  '/categories/{id}':
+  /api/categories/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Идентификатор категории
+        schema:
+          type: integer
+          minimum: 1
     get:
-      summary: Получение информации о категории
+      summary: Информация о категории
       tags:
         - Категории
       responses:
         '200':
-          description: Информация о категории
+          description: Категория успешно обновлена
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: Название категории
+                $ref: '#/components/schemas/Categories'
+        '404':
+          description: Категория с указанным ID не найдена
     put:
       summary: Обновление информации о категории
       tags:
         - Категории
       requestBody:
         required: true
-        content: 
+        content:
           application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: Название категории
+              $ref: '#/components/schemas/Categories'
       responses:
         '200':
-          description: Информация о категории успешно обновлена
+          description: Категория успешно обновлена
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: Название категории
-        '400':
-          description: Некорректные данные для обновления информации о категории
+                $ref: '#/components/schemas/Categories'
         '404':
-          description: Категория не найдена
+          description: Категория с указанным ID не найдена
     delete:
       summary: Удаление категории
       tags:
@@ -113,7 +101,7 @@ paths:
           description: Категория успешно удалена
         '404':
           description: Категория не найдена
-  /products:
+  /api/products:
     get:
       summary: Получение списка товаров
       tags:
@@ -126,7 +114,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Product"
+                  $ref: '#/components/schemas/Product'
     post:
       summary: Добавление нового товара
       tags:
@@ -136,32 +124,38 @@ paths:
         content: 
           application/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: '#/components/schemas/Product'
       responses:
         '201':
           description: Новый товар создан успешно
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: '#/components/schemas/Product'
         '400':
           description: Некорректные данные для создания товара
-    '/products/{id}':
-     get:
-      summary: Получение информации о товаре
+  /api/products/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Идентификатор товара
+        schema:
+          type: integer
+          minimum: 1
+    get:
+      summary: Информация о товаре
       tags:
         - Товары
       responses:
         '200':
-          description: Информация о товаре
+          description: Товар успешно обновлена
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: Название товара
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Товар с указанным ID не найден
     put:
       summary: Обновление информации о товаре
       tags:
@@ -178,7 +172,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: '#/components/schemas/Product'
         '400':
           description: Некорректные данные для обновления информации о товаре
         '404':
@@ -194,25 +188,69 @@ paths:
           description: Товар не найден
 components:
   schemas:
+    Categories:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор товара
+        name:
+          type: string
+          description: Название категории
+        description:
+          type: string
+          description: Описание категории
+        mark:
+          type: boolean
+          description: Статус категории
+        status:
+          type: boolean
+          description: Наличие категории
+        order:
+          type: number
+          description: ID категории
+      required:
+        - id
+        - name
     Product:
       type: object
       required:
+        - id
         - name
-        - category
+        - image
         - price
+        - quantity
       properties:
+        id:
+          type: integer
+          description: Идентификатор товара
         name:
           type: string
           description: Название товара
-        category:
-          type: string
-          description: Категория товара
         description:
           type: string
           description: Описание товара
+        image: 
+          type: string
+          description: Фото товара
         price:
           type: number
           description: Цена товара
+        quantity:
+          type: number
+          description: Статус товара
+        brand:
+          type: string
+          description: Бренд товара
+        mark:
+          type: boolean
+          description: Статус товара
+        status:
+          type: boolean
+          description: Наличие товара
+        discount:
+          type: number
+          description: Скидка
         model:
           type: string
           description: Модель товара
