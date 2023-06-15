@@ -25,7 +25,7 @@ API интернет-магазина предоставляет возможн�
 
 ## Ссылки
 
-- ER-диаграмма базы данных: https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82-%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1MNMwJfZSYtto8WAGNQrQof6uK9qsj-rV%26export%3Ddownload
+- Реляционная схема базы данных: https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82-%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1MNMwJfZSYtto8WAGNQrQof6uK9qsj-rV%26export%3Ddownload
 
 ![image](https://github.com/NadiaYanchuk/TaskAPI/assets/99792876/181b2f06-1da2-400f-8fcc-2ade888801d4)
 
